@@ -37,4 +37,4 @@ train_df.describe(include=['O'])
 
 train_df[['Pclass', 'Survived']].groupby(['Pclass'], as_index=False).mean().sort_values(by='Survived',ascending=False)
 
-train_df[['Sex','Survived']].groupby(['SibSp'], as_index=False).mean().sort_
+train_df[['Sex','Survived']].groupby(['SibSp'], as_index=False).mean().sort_values(by='Survived', ascending=False)
