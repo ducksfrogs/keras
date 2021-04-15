@@ -37,4 +37,13 @@ train_df.describe(include=['O'])
 
 train_df[['Pclass', 'Survived']].groupby(['Pclass'], as_index=False).mean().sort_values(by='Survived',ascending=False)
 
-train_df[['Sex','Survived']].groupby(['SibSp'], as_index=False).mean().sort_values(by='Survived', ascending=False)
+train_df[['Sex', 'Survived']].groupby(['Sex'], as_index=False).mean().sort_values(by='Survived', ascending=False)
+
+train_df[['SibSp','Survived']].groupby(['SibSp'], as_index=False).mean().sort_values(by='Survived', ascending=False)
+
+train_df[['Parch', 'Survived']].groupby(['Parch'], as_index=False).mean().sort_values(by='Survived',ascending=False)
+
+
+
+g = sns.FacetGrid(train_df, col='Survived')
+g.map(plt.hist, 'Age', bins=20)
