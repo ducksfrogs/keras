@@ -20,4 +20,14 @@ test_df = pd.read_csv("../input/test.csv")
 
 combine = [train_df, test_df]
 
-print(train_df.colu)
+print(train_df.columns.values)
+
+
+train_df.head()
+train_df.tail()
+
+train_df.info()
+print('-'*40)
+test_df.info()
+
+train_df.describe()
