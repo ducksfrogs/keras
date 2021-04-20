@@ -28,3 +28,5 @@ sys.version_info
 items = pd.read_csv('../input/items.csv')
 shops = pd.read_csv('../input/shops.csv')
 cats = pd.read_csv('../input/item_categories.csv')
+
+train = pd.read_csv('../input/sales_train.csv')
