@@ -15,4 +15,16 @@ from xgboost import plot_importance
 
 
 def plot_feature(booster, figsine):
-    
+    fig, ax = plt.subplots(1,1, figsize=figsize)
+    return plot_importance(booster=booster, ax=ax)
+
+import time
+import sys
+import gc
+import pickle
+sys.version_info
+
+
+items = pd.read_csv('../input/items.csv')
+shops = pd.read_csv('../input/shops.csv')
+cats = pd.read_csv('../input/item_categories.csv')
