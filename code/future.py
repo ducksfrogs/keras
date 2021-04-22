@@ -30,3 +30,13 @@ shops = pd.read_csv('../input/shops.csv')
 cats = pd.read_csv('../input/item_categories.csv')
 
 train = pd.read_csv('../input/sales_train.csv')
+
+test = pd.read_csv("../input/test.csv").set_index("ID")
+
+
+plt.figure(figsize=(10,4))
+plt.xlim(-100, 3000)
+sns.boxplot(x=train.item_cnt_day)
+
+plt.figure(figsize=(10,4))
+plt.xlim(train.item_price.min(), train.item_price.max()*1.1)
