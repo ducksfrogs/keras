@@ -40,3 +40,15 @@ sns.boxplot(x=train.item_cnt_day)
 
 plt.figure(figsize=(10,4))
 plt.xlim(train.item_price.min(), train.item_price.max()*1.1)
+sns.boxplot(x=train.item_price)
+
+
+train = train[train.item_price<10000]
+train = train[train.item_cnt_day<1001]
+
+median = train[(train.shop_id==32)&(train.item_id==2973)&(train.date_block_num==4)
+            &(train.item_price<0)]
+
+# train.loc[train.shop_id==0, 'shop_id'] = 57
+# train.loc[test.shop_id==0, 'shop_id'] = 57
+# train.loc`
