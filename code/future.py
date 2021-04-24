@@ -49,6 +49,29 @@ train = train[train.item_cnt_day<1001]
 median = train[(train.shop_id==32)&(train.item_id==2973)&(train.date_block_num==4)
             &(train.item_price<0)]
 
+train.loc[train.item_price<0, 'item_price'] = median
+
 # train.loc[train.shop_id==0, 'shop_id'] = 57
 # train.loc[test.shop_id==0, 'shop_id'] = 57
 # train.loc`
+
+train.loc[train.shop_id == 0, 'shop_id'] = 57
+test.loc[test.shop_id==0, 'shop_id'] = 57
+
+train.loc[train.shop_id == 1, 'shop_id'] = 58
+test.loc[test.shop_id == 1, 'shop_id'] = 58
+
+train.loc[train.shop_id == 10, 'shop_id'] = 11
+test.loc[test.shop_id == 10, 'shop_id'] = 11
+
+shops.loc[shops.shop_name == 'Сергиев Посад ТЦ "7Я"', 'shop_name'] = 'СергиевПосад ТЦ "7Я"'
+
+shops['city'] = shops['shop_name'].str.split(' ').map(lambda x: x[0])
+
+shops.loc[shops.city == '!Якутск', 'city'] = 'Якутск'
+
+shops['city_code'] = LabelEncoder().fit_transform(shops['city'])
+
+shops = shops[['shop_id', 'city_code']]
+
+cats['split']
