@@ -74,4 +74,5 @@ shops['city_code'] = LabelEncoder().fit_transform(shops['city'])
 
 shops = shops[['shop_id', 'city_code']]
 
-cats['split']
+cats['split'] = cats['item_category_name'].str.split('-')
+cats['type'] = cats['split'].map(lambda x: x[0].strip())
