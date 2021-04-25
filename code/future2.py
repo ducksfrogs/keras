@@ -46,3 +46,8 @@ x = x.iloc[0:10].reset_index()
 
 plt.figure(figsize=(8,4))
 ax = sns.barplot(x.item_category_id, x.item_id, alpha=0.8)
+
+
+ts = sales.groupby(['date_block_num'])['item_cnt_day'].sum()
+
+ts.astype('float')
