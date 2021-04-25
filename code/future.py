@@ -90,4 +90,36 @@ cols = ['date_block_num', 'shop_id', 'item_id']
 
 for i in range(34):
     sales = train[train.date_block_num==i]
-    matrix.append(np.array(list(product([i], ))))
+    matrix.append(np.array(list(product([i], sales.shop_id.unique(), sales.item_id.unique()))dtype='int16'))
+
+matrix = pd.DataFrame(np.vstack(matrix), columns= cols)
+matrix['date_block_num'] = matrix['date_block_num'].astype(np.int8)
+matrix['shop_id'] = matrix['shop_id'].astype(np.int8)
+matrix['item_id'] = matrix['item_id'].astype(np.int16)
+matrix.sort_values(cols, inplace=True)
+time.time() - ts
+
+
+train['revenue'] = train['item_price'] * train['item_cnt_day']
+
+ts = time.time()
+group = train.groupby(['date_block_num', 'shop_id', 'item_id']).agg({'item_cnt_day': ['sum']})
+group.columns = ['item_cnt_month']
+group.reset_index(inplace=True)
+
+matrix = pd.merge(matrix, group, on=cols, how='left')
+matrix['item_cnt_month'] = (matrix['item_cnt_month']
+                                    .fillna(0)
+                                    .clip(0,20).astype(np.float16))
+
+time.time() - ts
+
+
+test['date_block_num'] = 34
+test['date_block_num'] = test['date_block_num'].astype(np.int8)
+
+
+ts = time.time()
+matrix = pd.concat([matrix, test], ignore_index=True, sort=False, keys=cols)
+matrix.fillna(0, inplace=True)
+time.time() - ts
