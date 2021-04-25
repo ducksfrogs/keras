@@ -76,3 +76,18 @@ shops = shops[['shop_id', 'city_code']]
 
 cats['split'] = cats['item_category_name'].str.split('-')
 cats['type'] = cats['split'].map(lambda x: x[0].strip())
+cats['type_code'] = LabelEncoder().fit_transform(cats['type'])
+cats['subtype'] = cats['split'].map(lambda x: x[1].strip() if len(x) > 1 else x[0].strip())
+cats['subtype_code'] = LabelEncoder().fit_transform(cats['subtype'])
+
+cats = cats[['item_category_id', 'type_code', 'subtype_code']]
+
+items.drop(['item_name'], axis=1, inplace=True)
+
+ts = time.time()
+matrix = []
+cols = ['date_block_num', 'shop_id', 'item_id']
+
+for i in range(34):
+    sales = train[train.date_block_num==i]
+    matrix.append(np.array(list(product([i], ))))
