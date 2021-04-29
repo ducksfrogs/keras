@@ -41,3 +41,9 @@ for dataset in full_data:
 for dataset in full_data:
     dataset['IsAlone'] = 0
     dataset.loc[dataset['FamilySize'] == 1, 'IsAlone'] = 1
+
+for dataset in full_data:
+    dataset['Embarked'] = dataset['Embarked'].fillna('S')
+
+for dataset in full_data:
+    dataset['Fare'] = dataset['Fare'].fillna(train['Fare'].median())
