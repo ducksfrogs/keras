@@ -53,4 +53,20 @@ train['CategoricalFare'] = pd.qcut(train['Fare'], 4)
 for dataset in full_data:
     age_avg = dataset['Age'].mean()
     age_std = dataset['Age'].std()
-    
+    age_null_count = dataset['Age'].isnull().sum()
+    age_null_random_list = np.random.randint(age_avg - age_std, age_avg + age_std, size=age_null_count)
+    dataset['Age'][np.isnan(dataset['Age'])] = age_null_random_list
+    dataset['Age'] = dataset['Age'].astype(int)
+train['CategoricalAge'] = pd.cut(train['Age'], 5)
+
+def get_title(name):
+    title_search = re.search(' ([A-Za-z]+)\.', name)
+    if title_search:
+        return title_search.group(1)
+
+for dataset in full_data:
+    dataset['Title'] = dataset['Name'].apply(get_title)
+
+
+for dataset in full_data:
+    dataset['Title'] = dataset['Title'].replace(['Lady','Countess','Capt','Col','Don','Dr','Major','Rev','Sir','Jonkheer','Dona'], 'Rare' )
