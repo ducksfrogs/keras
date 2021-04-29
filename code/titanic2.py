@@ -47,3 +47,10 @@ for dataset in full_data:
 
 for dataset in full_data:
     dataset['Fare'] = dataset['Fare'].fillna(train['Fare'].median())
+
+train['CategoricalFare'] = pd.qcut(train['Fare'], 4)
+
+for dataset in full_data:
+    age_avg = dataset['Age'].mean()
+    age_std = dataset['Age'].std()
+    
