@@ -33,3 +33,11 @@ train['Name_length'] = train['Name'].apply(len)
 test['Name_length'] = test['Name'].apply(len)
 
 train['Has_Cabin'] = train['Cabin'].apply(lambda x: 0 if type(x) == float else 1)
+test['Has_Cabin'] = test['Cabin'].apply(lambda x: 0 if type(x) == float else 1)
+
+for dataset in full_data:
+    dataset['FamilySize'] = dataset['SibSp'] + dataset['Parch'] + 1
+
+for dataset in full_data:
+    dataset['IsAlone'] = 0
+    dataset.loc[dataset['FamilySize'] == 1, 'IsAlone'] = 1
