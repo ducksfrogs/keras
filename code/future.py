@@ -148,3 +148,8 @@ def lag_feature(df, lags, col):
 ts = time.time()
 matrix = lag_feature(matrix, [1,2,3,6,12], 'item_cnt_day')
 time.time() - ts
+
+
+ts = time.time()
+group = matrix.groupby(['date_block_num', 'shop_id']).agg({'item_cnt_month':['mean']})
+group.columns = ['date_shop_avg_item_cnt']
