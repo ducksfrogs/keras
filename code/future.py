@@ -123,3 +123,28 @@ ts = time.time()
 matrix = pd.concat([matrix, test], ignore_index=True, sort=False, keys=cols)
 matrix.fillna(0, inplace=True)
 time.time() - ts
+
+ts = time.time()
+matrix = pd.merge(matrix, shops, on=['shop_id'], how='left')
+matrix = pd.merge(matrix, items, on=['item_id'], how='left')
+matrix = pd.merge(matrix, cats, on=['item_category_id'], how='left')
+
+matrix['city_code'] = matrix['city_code'].astype(np.int8)
+matrix['item_category_id'] = matrix['item_category_id'].astype(np.int8)
+matrix['type_code'] = matrix['type_code'].astype(np.int8)
+matrix['subtype_code'] = matrix['subtype_code'].astype(np.int8)
+time.time() - ts
+
+
+def lag_feature(df, lags, col):
+    tmp = df[['date_block_num', 'shop_id', 'item_id', col]]
+    for i in lags:
+        shifted = tmp.copy()
+        shifted.columns = ['date_block_num', 'shop_id', 'item_id', col+'_lag_'+str(i)]
+        shifted['date_block_num'] += i
+        df = pd.merge(df, shifted, on=['date_block_num', 'shop_id', 'item_id'], how='left')
+        return df
+
+ts = time.time()
+matrix = lag_feature(matrix, [1,2,3,6,12], 'item_cnt_day')
+time.time() - ts
