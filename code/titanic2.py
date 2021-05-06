@@ -95,3 +95,24 @@ for dataset in full_data:
     dataset.loc[(dataset['Age'] > 32) & (dataset['Age'] <= 48), 'Age'] = 2
     dataset.loc[(dataset['Age'] > 48) & (dataset['Age'] <= 64), 'Age'] = 3
     dataset.loc[dataset['Age'] > 64, 'Age'] = 4
+
+
+drop_elements = ['PassengerId', 'Name', 'Ticket', 'Cabin', 'SibSp']
+
+train = train.drop(drop_elements, axis=1)
+train = train.drop(['CategoricalAge', 'CategoricalFare'], axis=1)
+test = test.drop(drop_elements, axis =1)
+
+
+
+train.head(3)
+
+
+colormap = plt.cm.RdBu
+plt.figure(figsize=(14,12))
+sns.heatmap(train.astype(float).corr(),linewidths=0.1, vmax=1.0, square=True, cmap=colormap, linecolor='white', annot=True)
+
+g = sns.pairplot(train[[u'Survived', u'Pclass', u'Sex', u'Age', u'Parch', u'Fare', u'Embarked', u'FamilySize', u'Title']], hue='Survived',
+                palette='seismic', diag_kind='kde', diag_kws=dict(shade=True), plot_kws=dict(s=10))
+
+g.set(xticklabels=[])
