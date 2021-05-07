@@ -49,5 +49,22 @@ ax = sns.barplot(x.item_category_id, x.item_id, alpha=0.8)
 
 
 ts = sales.groupby(['date_block_num'])['item_cnt_day'].sum()
-
 ts.astype('float')
+plt.figure('flat')
+plt.title('Total Sales of the company')
+plt.xlabel('Time')
+plt.ylabel("Sales")
+plt.plot(ts)
+
+
+plt.figure(figsize=(16,6))
+plt.plot(ts.rolling(window=12, center=False).mean(), label='Rolling Mean')
+plt.plot(ts.rolling(window=12, center=False).std(), label="Rolling sd")
+
+import statsmodels.api as sm
+
+res = sm.tsa.seasonal_decompose(ts.values, freq=12, model='multiplicative')
+fig = res.plot()
+
+res = sm.tsa.seasonal_decompose(ts.values, freq=12, model='addtive')
+fig = res.plot()
