@@ -36,3 +36,20 @@ df_test.isna().sum()
 
 import pandas_profiling as pp
 pp.ProfileReport(df_train)
+
+
+df_train.drop(['date_block_num', 'item_price'], axis=1, inplace=True)
+
+df_train.head()
+
+df_train['date'] = pd.to_datetime(df_train['date'], dayfirst=True)
+df_train['date'] = df_train['date'].apply(lambda x: x.s('%Y-%m'))
+
+df = df_train.groupby(['date', 'shop_id','item_id']).sum()
+df = df.pivot_table(index=['shop_id', 'item_id'], columns='date', values='item_cnt_day',fill_value=0)
+df.reset_index(inplace=True)
+df.head().T
+
+
+df_test = pd.merge(df_test, on=['shop_id', 'item_id'], how='left')
+df_test.drop(["ID", '2013-01'], axis=1, inplace=True)
