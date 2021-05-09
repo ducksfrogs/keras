@@ -53,3 +53,10 @@ df.head().T
 
 df_test = pd.merge(df_test, on=['shop_id', 'item_id'], how='left')
 df_test.drop(["ID", '2013-01'], axis=1, inplace=True)
+df_test = df_test.fillna(0)
+df_test.head().T
+
+
+Y_train = df['2015-10'].values
+X_train = df.drop(['2015-10'], axis=1)
+X_test = df_test
